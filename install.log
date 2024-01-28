@@ -1,0 +1,7 @@
+[12:49:40 2024-01-17] FETCHING Version 2.30.0
+[12:49:40 2024-01-17] DOWNLOADING https://github.com/spicetify/spicetify-cli/releases/download/v2.30.0/spicetify-2.30.0-linux-amd64.tar.gz
+[12:49:40 2024-01-17] EXTRACTING /home/jadonc/.spicetify/spicetify.tar.gz
+[12:49:40 2024-01-17] SETTING EXECUTABLE PERMISSIONS TO /home/jadonc/.spicetify/spicetify
+[12:49:40 2024-01-17] REMOVING /home/jadonc/.spicetify/spicetify.tar.gz
+[12:49:40 2024-01-17] spicetify v2.30.0 was installed successfully to /home/jadonc/.spicetify
+[12:49:40 2024-01-17] Run 'spicetify --help' to get started
