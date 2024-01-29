@@ -87,7 +87,7 @@ keys = [
     Key([mod], "b", lazy.spawn(myBrowser), desc="Opens default browser!"),
 ]
 
-groups = [Group(i) for i in ["", "", "", "", "󰙯", "", "", ""]]
+groups = [Group(i) for i in ["", "󰖟", "", "", "󰙯", "", "", ""]]
 group_hotkeys = "123456789"
 
 
