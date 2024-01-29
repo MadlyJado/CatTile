@@ -176,6 +176,7 @@ widget_defaults = dict(
 )
 extension_defaults = widget_defaults.copy()
 
+# Filters Long file paths for Neovim and Vivaldi long names for website title's
 def filterLongWindowNames(text):
     for string in ["NVIM", "Vivaldi"]:
         if string in text:
@@ -243,6 +244,7 @@ def get_widgets(primary=False):
             widget.WiFiIcon(
                     background=catpuccin["Green"],
                     foreground=catpuccin["Crust"],
+                    active_colour=catpuccin["Crust"],
                     interface="wlp5s0",
                     show_ssid=True,
                     font="hack",
