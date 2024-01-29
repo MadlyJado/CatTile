@@ -35,8 +35,12 @@ import owm
 from qtile_extras import widget
 from qtile_extras.widget.decorations import PowerLineDecoration
 
+# This stands for the windows key/Super key, if you wish to use something else
+# Look up which keys stand for what on the qtile docs!
 mod = "mod4"
+# If you use a different terminal, feel free to change this!
 terminal = "kitty"
+# Change if you wish to use something other than vivaldi!
 myBrowser = "vivaldi"
 
 
