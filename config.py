@@ -91,7 +91,7 @@ keys = [
     Key([mod], "b", lazy.spawn(myBrowser), desc="Opens default browser!"),
 ]
 
-groups = [Group(i) for i in ["", "󰖟", "", "", "󰙯", "", "", ""]]
+groups = [Group(i) for i in ["", "󰖟", "", "", "󰙯", "󰓓", "", ""]]
 group_hotkeys = "123456789"
 
 
@@ -215,33 +215,108 @@ powerline = {
     ]
 }
 
-def get_widgets(primary=False):
-    widgets= [
-            widget.GroupBox(
-                 highlight_method="line",
-                 background=catpuccin["Flamingo"],
-                 foreground="#00000000",
-                 highlight_color=[catpuccin["Flamingo"], catpuccin["Flamingo"]],
-                 inactive=catpuccin["Crust"],
-                 **powerline
-                ),
-            widget.WindowName(
-                padding=0,
-                foreground=catpuccin["Crust"],
-                background=catpuccin["Teal"],
-                fontsize=10,
-                width=470,
-                parse_text=filterLongWindowNames,
-                **powerline
-                ),
-           widget.Clock(
-                   format="     %Y-%m-%d %a %I:%M %p",
-                   fontsize=10,
-                   background=catpuccin["Mauve"],
-                   foreground=catpuccin["Crust"],
+def get_widgets(primary=False, isLaptop=False):
+    widgets = [
+        widget.GroupBox(
+            highlight_method="line",
+            background=catpuccin["Flamingo"],
+            foreground="#00000000",
+            highlight_color=[catpuccin["Flamingo"], catpuccin["Flamingo"]],
+            inactive=catpuccin["Crust"],
+            **powerline
+            ),
+        widget.WindowName(
+            padding=0,
+            foreground=catpuccin["Crust"],
+            background=catpuccin["Teal"],
+            fontsize=10,
+            width=470,
+            parse_text=filterLongWindowNames,
+            **powerline
+            ),
+        widget.Clock(
+            format="     %Y-%m-%d %a %I:%M %p",
+            fontsize=10,
+            background=catpuccin["Mauve"],
+            foreground=catpuccin["Crust"],
+            **powerline
+            ),
+        widget.WiFiIcon(
+            background=catpuccin["Green"],
+            foreground=catpuccin["Crust"],
+            active_colour=catpuccin["Crust"],
+            interface="wlp5s0",
+            show_ssid=True,
+            font="hack",
+            fontsize=10,
+            **powerline
+            ),
+        widget.CheckUpdates(
+            background=catpuccin["Green"],
+            color_have_updates=catpuccin["Crust"],
+            color_no_updates=catpuccin["Crust"],
+            foreground=catpuccin["Crust"],
+            fontsize=15,
+            display_format="󰣇: {updates}",
+            distro="Arch_paru",
+            **powerline
+            ),
+        widget.CPU(
+            background=catpuccin["Red"],
+            fontsize=10,
+            format="CPU: {freq_current}GHz {load_percent}%",
+            foreground=catpuccin["Crust"],
+            ),
+        widget.ThermalSensor(
+            tag_sensor='Tctl',
+            threshold=40.0,
+            fontsize=10,
+            background=catpuccin["Red"],
+            foreground=catpuccin["Crust"],
+            ),
+        widget.Memory(
+            format='Memory: {MemUsed: .0f}{mm}/{MemTotal: .0f}{mm} Swap: {SwapUsed: .0f}{ms}/{SwapTotal: .0f}{ms}',
+            fontsize=10,
+            background=catpuccin["Red"],
+            foreground=catpuccin["Crust"],
+            **powerline
+            ),
+        owm.OpenWeatherMap(
+            background=catpuccin["Lavender"],
+            foreground=catpuccin["Crust"],
+            fontsize=10,
+            **powerline,
+            ),
+        triangleWidget(endOfWidget=True, color=catpuccin["Lavender"])
+            
+    ]
+    if isLaptop and primary:
+        widgets = [
+                widget.GroupBox(
+                    highlight_method="line",
+                    background=catpuccin["Flamingo"],
+                    foreground="#00000000",
+                    highlight_color=[catpuccin["Flamingo"], catpuccin["Flamingo"]],
+                    inactive=catpuccin["Crust"],
+                    **powerline
+                    ),
+                widget.WindowName(
+                    padding=0,
+                    foreground=catpuccin["Crust"],
+                    background=catpuccin["Teal"],
+                    fontsize=10,
+                    width=470,
+                    parse_text=filterLongWindowNames,
+                    **powerline
+                    ),
+                widget.Clock(
+                    format="     %Y-%m-%d %a %I:%M %p",
+                    fontsize=10,
+                    background=catpuccin["Mauve"],
+                    foreground=catpuccin["Crust"],
                     **powerline
                    ),
-            widget.WiFiIcon(
+                widget.WiFiIcon(
                     background=catpuccin["Green"],
                     foreground=catpuccin["Crust"],
                     active_colour=catpuccin["Crust"],
@@ -250,8 +325,19 @@ def get_widgets(primary=False):
                     font="hack",
                     fontsize=10,
                     **powerline
-            ),
-            widget.CheckUpdates(
+                   ),
+                widget.UPowerWidget(
+                    background=catpuccin["Green"],
+                    foreground=catpuccin["Crust"],
+                    border_colour=catpuccin["Crust"],
+                    border_charge_colour=catpuccin["Crust"],
+                    border_critical_colour=catpuccin["Red"],
+                    fill_critical=catpuccin["Red"],
+                    fill_normal=catpuccin["Crust"],
+                    fill_charge=catpuccin["Crust"],
+                    font="hack",
+                  ),
+                widget.CheckUpdates(
                     background=catpuccin["Green"],
                     color_have_updates=catpuccin["Crust"],
                     color_no_updates=catpuccin["Crust"],
@@ -260,39 +346,128 @@ def get_widgets(primary=False):
                     display_format="󰣇: {updates}",
                     distro="Arch_paru",
                     **powerline
-                    ),
-            widget.CPU(
-                    background=catpuccin["Red"],
-                    fontsize=10,
-                    format="CPU: {freq_current}GHz {load_percent}%",
-                    foreground=catpuccin["Crust"],
-                    ),
-            widget.ThermalSensor(
+                  ),
+                widget.CPU(
+                        background=catpuccin["Red"],
+                        fontsize=10,
+                        format="CPU: {freq_current}GHz {load_percent}%",
+                        foreground=catpuccin["Crust"],
+                  ),
+                widget.ThermalSensor(
                     tag_sensor='Tctl',
                     threshold=40.0,
                     fontsize=10,
                     background=catpuccin["Red"],
                     foreground=catpuccin["Crust"],
                     ),
-            widget.Memory(
+                widget.Memory(
                     format='Memory: {MemUsed: .0f}{mm}/{MemTotal: .0f}{mm} Swap: {SwapUsed: .0f}{ms}/{SwapTotal: .0f}{ms}',
                     fontsize=10,
                     background=catpuccin["Red"],
                     foreground=catpuccin["Crust"],
                     **powerline
-            ),
-            owm.OpenWeatherMap(
+                    ),
+                owm.OpenWeatherMap(
                     background=catpuccin["Lavender"],
                     foreground=catpuccin["Crust"],
                     fontsize=10,
                     **powerline,
                     ),
-            triangleWidget(endOfWidget=True, color=catpuccin["Lavender"])
-            
+                triangleWidget(endOfWidget=True, color=catpuccin["Lavender"])
+        ]                
+        widgets.append(widget.Systray())
+        return widgets
+    elif isLaptop and primary == False:
+        widgets = [
+                widget.GroupBox(
+                    highlight_method="line",
+                    background=catpuccin["Flamingo"],
+                    foreground="#00000000",
+                    highlight_color=[catpuccin["Flamingo"], catpuccin["Flamingo"]],
+                    inactive=catpuccin["Crust"],
+                    **powerline
+                    ),
+                widget.WindowName(
+                    padding=0,
+                    foreground=catpuccin["Crust"],
+                    background=catpuccin["Teal"],
+                    fontsize=10,
+                    width=470,
+                    parse_text=filterLongWindowNames,
+                    **powerline
+                    ),
+                widget.Clock(
+                    format="     %Y-%m-%d %a %I:%M %p",
+                    fontsize=10,
+                    background=catpuccin["Mauve"],
+                    foreground=catpuccin["Crust"],
+                    **powerline
+                   ),
+                widget.WiFiIcon(
+                    background=catpuccin["Green"],
+                    foreground=catpuccin["Crust"],
+                    active_colour=catpuccin["Crust"],
+                    interface="wlp5s0",
+                    show_ssid=True,
+                    font="hack",
+                    fontsize=10,
+                    **powerline
+                   ),
+                widget.UPowerWidget(
+                    background=catpuccin["Green"],
+                    foreground=catpuccin["Crust"],
+                    border_colour=catpuccin["Crust"],
+                    border_charge_colour=catpuccin["Crust"],
+                    border_critical_colour=catpuccin["Red"],
+                    fill_critical=catpuccin["Red"],
+                    fill_normal=catpuccin["Crust"],
+                    fill_charge=catpuccin["Crust"],
+                    font="hack",
+                   ),
+                 widget.CheckUpdates(
+                    background=catpuccin["Green"],
+                    color_have_updates=catpuccin["Crust"],
+                    color_no_updates=catpuccin["Crust"],
+                    foreground=catpuccin["Crust"],
+                    fontsize=15,
+                    display_format="󰣇: {updates}",
+                    distro="Arch_paru",
+                    **powerline
+                  ),
+                widget.CPU(
+                        background=catpuccin["Red"],
+                        fontsize=10,
+                        format="CPU: {freq_current}GHz {load_percent}%",
+                        foreground=catpuccin["Crust"],
+                  ),
+                widget.ThermalSensor(
+                    tag_sensor='Tctl',
+                    threshold=40.0,
+                    fontsize=10,
+                    background=catpuccin["Red"],
+                    foreground=catpuccin["Crust"],
+                    ),
+                widget.Memory(
+                    format='Memory: {MemUsed: .0f}{mm}/{MemTotal: .0f}{mm} Swap: {SwapUsed: .0f}{ms}/{SwapTotal: .0f}{ms}',
+                    fontsize=10,
+                    background=catpuccin["Red"],
+                    foreground=catpuccin["Crust"],
+                    **powerline
+                    ),
+                owm.OpenWeatherMap(
+                    background=catpuccin["Lavender"],
+                    foreground=catpuccin["Crust"],
+                    fontsize=10,
+                    **powerline,
+                    ),
+                triangleWidget(endOfWidget=True, color=catpuccin["Lavender"])
         ]
-    if primary:
+        return widgets
+
+    elif primary and isLaptop == False:
         widgets.append(wg.Systray())
         return widgets
+
     return widgets
 
 
