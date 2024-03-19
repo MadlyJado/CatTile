@@ -41,7 +41,7 @@ mod = "mod4"
 # If you use a different terminal, feel free to change this!
 terminal = "kitty"
 # Change if you wish to use something other than vivaldi!
-myBrowser = "vivaldi"
+myBrowser = "floorp"
 
 
 keys = [
@@ -290,6 +290,8 @@ def get_widgets(primary=False, isLaptop=False):
         triangleWidget(endOfWidget=True, color=catpuccin["Lavender"])
             
     ]
+
+
     if isLaptop and primary:
         widgets = [
                 widget.GroupBox(
@@ -326,17 +328,6 @@ def get_widgets(primary=False, isLaptop=False):
                     fontsize=10,
                     **powerline
                    ),
-                widget.UPowerWidget(
-                    background=catpuccin["Green"],
-                    foreground=catpuccin["Crust"],
-                    border_colour=catpuccin["Crust"],
-                    border_charge_colour=catpuccin["Crust"],
-                    border_critical_colour=catpuccin["Red"],
-                    fill_critical=catpuccin["Red"],
-                    fill_normal=catpuccin["Crust"],
-                    fill_charge=catpuccin["Crust"],
-                    font="hack",
-                  ),
                 widget.CheckUpdates(
                     background=catpuccin["Green"],
                     color_have_updates=catpuccin["Crust"],
@@ -373,10 +364,10 @@ def get_widgets(primary=False, isLaptop=False):
                     fontsize=10,
                     **powerline,
                     ),
-                triangleWidget(endOfWidget=True, color=catpuccin["Lavender"])
-        ]                
-        widgets.append(widget.Systray())
-        return widgets
+                triangleWidget(endOfWidget=True, color=catpuccin["Lavender"]),
+                widgets.append(wg.Systray())
+            
+        ]
     elif isLaptop and primary == False:
         widgets = [
                 widget.GroupBox(
@@ -413,18 +404,7 @@ def get_widgets(primary=False, isLaptop=False):
                     fontsize=10,
                     **powerline
                    ),
-                widget.UPowerWidget(
-                    background=catpuccin["Green"],
-                    foreground=catpuccin["Crust"],
-                    border_colour=catpuccin["Crust"],
-                    border_charge_colour=catpuccin["Crust"],
-                    border_critical_colour=catpuccin["Red"],
-                    fill_critical=catpuccin["Red"],
-                    fill_normal=catpuccin["Crust"],
-                    fill_charge=catpuccin["Crust"],
-                    font="hack",
-                   ),
-                 widget.CheckUpdates(
+                widget.CheckUpdates(
                     background=catpuccin["Green"],
                     color_have_updates=catpuccin["Crust"],
                     color_no_updates=catpuccin["Crust"],
@@ -460,14 +440,13 @@ def get_widgets(primary=False, isLaptop=False):
                     fontsize=10,
                     **powerline,
                     ),
-                triangleWidget(endOfWidget=True, color=catpuccin["Lavender"])
+                triangleWidget(endOfWidget=True, color=catpuccin["Lavender"]),
+                widgets.append(wg.Systray())
         ]
-        return widgets
-
     elif primary and isLaptop == False:
         widgets.append(wg.Systray())
         return widgets
-
+    
     return widgets
 
 

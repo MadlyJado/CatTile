@@ -134,8 +134,8 @@ class OpenWeatherMap(BaseClass):
         ("icon_font", None, "Font to use for weather icons"),
         ("format", "{temp:.1f}{temp_units} {icon}", "Format string",),
         ("update_interval", 3600, "Update interval in seconds between look ups"),
-        ("latitude", 44.3878, "Latitude to look up weather data for"),
-        ("longitude", -71.1731, "Longitude to look up weather data for"),
+        ("latitude", 43.6634467, "Latitude to look up weather data for"),
+        ("longitude", -70.2745482, "Longitude to look up weather data for"),
         ("units", "metric", "Temperature units to use"),
     ]
 
