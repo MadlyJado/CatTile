@@ -1,6 +1,11 @@
 # CatTile
 CatTile is a Qtile Config, created by me, MadlyJado, to suit my daily needs on the linux desktop.
 
+# Beautiful example image!
+
+![alt text](https://github.com/MadlyJado/CatTile/blob/main/cattile-screenshot.png?raw=true)
+
+
 # Dependencies:
 
 ```
