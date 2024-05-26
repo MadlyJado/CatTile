@@ -32,6 +32,7 @@ from libqtile.lazy import lazy
 from libqtile.utils import guess_terminal
 import libqtile.widget as wg
 import owm
+from libqtile import qtile
 from qtile_extras import widget
 from qtile_extras.widget.decorations import PowerLineDecoration
 
@@ -42,7 +43,14 @@ mod = "mod4"
 terminal = "kitty"
 # Change if you wish to use something other than vivaldi!
 myBrowser = "floorp"
+# Change this if you have a different name for your wifi interface
+myWifi = "wlan0"
 
+def RofiOrWofiDMenu():
+    if qtile.core.name== "x11":
+        return "rofi -show run"
+    elif qtile.core.name == "wayland":
+        return "wofi -d"
 
 keys = [
     # A list of available commands that can be bound to keys can be found
@@ -86,7 +94,7 @@ keys = [
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key([mod], "d", lazy.spawn("rofi -show run"), desc="Open rofi"),
-    Key([mod, "control"], "d", lazy.spawn("rofi -show drun"), desc="Open rofi in desktop file opener mode"),
+    Key([mod, "control"], "d", lazy.spawn(RofiOrWofiDMenu()), desc="Open rofi in desktop file opener mode"),
     Key([mod, "shift"], "w", lazy.spawn("rofi -show window"), desc="Open rofi in window opener mode"),
     Key([mod], "b", lazy.spawn(myBrowser), desc="Opens default browser!"),
 ]
@@ -245,7 +253,7 @@ def get_widgets(primary=False, isLaptop=False):
             background=catpuccin["Green"],
             foreground=catpuccin["Crust"],
             active_colour=catpuccin["Crust"],
-            interface="wlp5s0",
+            interface=myWifi,
             show_ssid=True,
             font="hack",
             fontsize=10,
@@ -322,7 +330,7 @@ def get_widgets(primary=False, isLaptop=False):
                     background=catpuccin["Green"],
                     foreground=catpuccin["Crust"],
                     active_colour=catpuccin["Crust"],
-                    interface="wlp5s0",
+                    interface=myWifi,
                     show_ssid=True,
                     font="hack",
                     fontsize=10,
@@ -398,7 +406,7 @@ def get_widgets(primary=False, isLaptop=False):
                     background=catpuccin["Green"],
                     foreground=catpuccin["Crust"],
                     active_colour=catpuccin["Crust"],
-                    interface="wlp5s0",
+                    interface=myWifi,
                     show_ssid=True,
                     font="hack",
                     fontsize=10,
@@ -519,8 +527,12 @@ wmname = "CatTile"
 
 @hook.subscribe.startup_once
 def autostart():
-    home = os.path.expanduser('~/.config/qtile/autostart.sh')
-    subprocess.Popen([home])
+    if qtile.core.name == "x11":
+        home = os.path.expanduser('~/.config/qtile/autostart.sh')
+        subprocess.Popen([home])
+    elif qtile.core.name == "wayland":
+        home = os.path.expanduser('~/.config/qtile/autostart_wayland.sh')
+        subprocess.Popen([home])
 
 def window_to_previous_screen(qtile, switch_group=False, switch_screen=False):
     i = qtile.screens.index(qtile.current_screen)
