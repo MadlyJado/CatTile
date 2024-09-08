@@ -44,13 +44,24 @@ terminal = "kitty"
 # Change if you wish to use something other than vivaldi!
 myBrowser = "floorp"
 # Change this if you have a different name for your wifi interface
-myWifi = "wlan0"
+myWifi = "wlp5s0"
+
+# Change this if you are using a laptop instead of a desktop
+isLaptop = False
 
 def RofiOrWofiDMenu():
     if qtile.core.name== "x11":
         return "rofi -show run"
     elif qtile.core.name == "wayland":
-        return "wofi -d"
+        return "wofi --allow-images --show run"
+dmenuCmd = RofiOrWofiDMenu()
+def RofiOrWofiDRun():
+    if qtile.core.name == "x11":
+        return "rofi -show drun"
+    elif qtile.core.name == "wayland":
+        return "wofi --allow-images --show drun"
+drunCmd = RofiOrWofiDRun()
+
 
 keys = [
     # A list of available commands that can be bound to keys can be found
@@ -93,8 +104,8 @@ keys = [
     Key([mod, "shift"], "q", lazy.window.kill(), desc="Kill focused window"),
     Key([mod, "control"], "r", lazy.reload_config(), desc="Reload the config"),
     Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    Key([mod], "d", lazy.spawn("rofi -show run"), desc="Open rofi"),
-    Key([mod, "control"], "d", lazy.spawn(RofiOrWofiDMenu()), desc="Open rofi in desktop file opener mode"),
+    Key([mod], "d", lazy.spawn(dmenuCmd), desc="Open rofi"),
+    Key([mod, "control"], "d", lazy.spawn(drunCmd), desc="Open rofi in desktop file opener mode"),
     Key([mod, "shift"], "w", lazy.spawn("rofi -show window"), desc="Open rofi in window opener mode"),
     Key([mod], "b", lazy.spawn(myBrowser), desc="Opens default browser!"),
 ]
@@ -186,12 +197,12 @@ extension_defaults = widget_defaults.copy()
 
 # Filters Long file paths for Neovim and Vivaldi long names for website title's
 def filterLongWindowNames(text):
-    for string in ["NVIM", "Vivaldi"]:
+    for string in ["NVIM", "Ablaze Floorp"]:
         if string in text:
             if string == "NVIM":
                 text = "Neovim"
-            elif string == "Vivaldi":
-                text = "Vivaldi Browser"
+            elif string == "Ablaze Floorp":
+                text = "Floorp Browser"
             else:
                 text = string
         else:
@@ -295,8 +306,13 @@ def get_widgets(primary=False, isLaptop=False):
             fontsize=10,
             **powerline,
             ),
-        triangleWidget(endOfWidget=True, color=catpuccin["Lavender"])
-            
+        widget.TextBox(
+            background=catpuccin["Lavender"],
+            text=".",
+            fontsize=-6,
+            foreground=catpuccin["Lavender"],
+            **powerline
+        ),
     ]
 
 
@@ -372,7 +388,13 @@ def get_widgets(primary=False, isLaptop=False):
                     fontsize=10,
                     **powerline,
                     ),
-                triangleWidget(endOfWidget=True, color=catpuccin["Lavender"]),
+                widget.TextBox(
+                    background=catpuccin["Lavender"],
+                    text=".",
+                    fontsize=-6,
+                    foreground=catpuccin["Lavender"],
+                    **powerline
+                    ),
                 widgets.append(wg.Systray())
             
         ]
@@ -448,7 +470,13 @@ def get_widgets(primary=False, isLaptop=False):
                     fontsize=10,
                     **powerline,
                     ),
-                triangleWidget(endOfWidget=True, color=catpuccin["Lavender"]),
+            widget.TextBox(
+                background=catpuccin["Lavender"],
+                text=".",
+                fontsize=-6,
+                foreground=catpuccin["Lavender"],
+                **powerline
+                ),
                 widgets.append(wg.Systray())
         ]
     elif primary and isLaptop == False:
@@ -462,7 +490,7 @@ def get_widgets(primary=False, isLaptop=False):
 screens = [
     Screen(
         top=bar.Bar(
-            get_widgets(primary=True),
+            get_widgets(primary=True, isLaptop=isLaptop),
             22,
             background="#00000000",
             # border_width=[2, 0, 2, 0],  # Draw top and bottom borders
@@ -472,7 +500,7 @@ screens = [
         ),
     Screen(
         top=bar.Bar(
-            get_widgets(primary=False),
+            get_widgets(primary=False, isLaptop=isLaptop),
             22,
             background="#00000000",
             opacity=1,
